@@ -3,11 +3,11 @@ import { StyleSheet, View } from "react-native";
 import { connect } from 'react-redux';
 
 import {
-  ADD_PLACE,
-  DELETE_PLACE,
-  SELECT_PLACE,
-  DESELECT_PLACE
-} from './src/store/actions/actionTypes';
+  addPlace,
+  deletePlace,
+  selectPlace,
+  deselectPlace
+} from './src/store/actions/index';
 
 import PlaceInput from "./src/components/PlaceInput/PlaceInput";
 import PlaceList from "./src/components/PlaceList/PlaceList";
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    places: state.places,
+    places: state.places.places,
     selectedPlace: state.places.selectedPlace
   };
 };
@@ -64,7 +64,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onAddPlace: (name) => dispatch(addPlace(name)),
     onDeletePlace: () => dispatch(deletePlace()),
-    onSelectPlace: (key) => dispatch(selectedPlace(key)),
+    onSelectPlace: (key) => dispatch(selectPlace(key)),
     onDeselectPlace: () => dispatch(deselectPlace())
   };
 };
