@@ -1,47 +1,13 @@
 import React, { Component } from "react";
 import { View, TextInput, Button, StyleSheet } from "react-native";
+import {DefaultInput} from '../ui';
 
-class PlaceInput extends Component {
-  state = {
-    placeName: ""
-  };
-
-  componentDidMount() {
-    
-  }
-
-  placeNameChangedHandler = val => {
-    this.setState({
-      placeName: val
-    });
-  };
-
-  placeSubmitHandler = () => {
-    if (this.state.placeName.trim() === "") {
-      return;
-    }
-
-    this.props.onPlaceAdded(this.state.placeName);
-  };
-
-  render() {
-    return (
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="An awesome place"
-          value={this.state.placeName}
-          onChangeText={this.placeNameChangedHandler}
-          style={styles.placeInput}
-        />
-        <Button
-          title="Add"
-          style={styles.placeButton}
-          onPress={this.placeSubmitHandler}
-        />
-      </View>
-    );
-  }
-}
+const placeInput = props => (
+    <DefaultInput 
+      placeholder="Place Name"
+      value={props.placeName}
+      onChangeText={props.onChangeText} />
+);
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -59,4 +25,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PlaceInput;
+export default placeInput;
