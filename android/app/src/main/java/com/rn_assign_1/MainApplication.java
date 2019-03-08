@@ -3,6 +3,7 @@ package com.rn_assign_1;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -29,7 +30,8 @@ public class MainApplication extends NavigationApplication {
 		// No need to add RnnPackage and MainReactPackage
 		return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            //new NavigationReactPackage(),
+            new MapsPackage(),
+            // new NavigationReactPackage(),
             new VectorIconsPackage()
 		);
 	}

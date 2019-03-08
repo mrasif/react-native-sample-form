@@ -5,8 +5,10 @@ import {DefaultInput} from '../ui';
 const placeInput = props => (
     <DefaultInput 
       placeholder="Place Name"
-      value={props.placeName}
-      onChangeText={props.onChangeText} />
+      value={props.placeData.value}
+      onChangeText={props.onChangeText}
+      valid={props.placeData.valid}
+      touched={props.placeData.touched} />
 );
 
 const styles = StyleSheet.create({
