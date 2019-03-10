@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, Text, Button, ScrollView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import PlaceInput from '../../components/PlaceInput/PlaceInput';
 import {MainText, HeadingText} from '../../components/ui';
@@ -106,6 +106,19 @@ class SharePlaceScreen extends Component {
   }
 
   render () {
+
+    let submitButton=<Button
+    title="Share the place"
+    onPress={this.placeAddedHandler}
+    disabled={
+      !this.state.controls.placeName.valid ||
+      !this.state.controls.location.valid ||
+      !this.state.controls.image.valid
+      } />;
+    if(this.props.isLoading){
+      submitButton=<ActivityIndicator/>;
+    }
+
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -118,14 +131,7 @@ class SharePlaceScreen extends Component {
             placeData={this.state.controls.placeName}
             onChangeText={this.placeNameChangedHandler}/>
           <View style={styles.button}>
-            <Button
-              title="Share the place"
-              onPress={this.placeAddedHandler}
-              disabled={
-                !this.state.controls.placeName.valid ||
-                !this.state.controls.location.valid ||
-                !this.state.controls.image.valid
-                } />
+            {submitButton}
           </View>
         </View>
       </ScrollView>
@@ -154,10 +160,16 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    isLoading: state.ui.isLoading
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     onAddPlace: (placeName,location, image) => dispatch(addPlace(placeName,location,image))
   };
 };
 
-export default connect(null, mapDispatchToProps)(SharePlaceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SharePlaceScreen);
