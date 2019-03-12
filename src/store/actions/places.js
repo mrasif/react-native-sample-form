@@ -1,5 +1,11 @@
-import { SET_PLACES, REMOVE_PLACE } from './actionTypes';
+import { SET_PLACES, REMOVE_PLACE, PLACE_ADDED, START_ADD_PLACE } from './actionTypes';
 import { uiStartLoading, uiStopLoading, authGetToken } from './index';
+
+export const startAddPlace =()=>{
+    return {
+        type: START_ADD_PLACE
+    };
+};
 
 export const addPlace = (placeName,location, image) => {
 
@@ -28,17 +34,25 @@ export const addPlace = (placeName,location, image) => {
             const placeData={
                 name: placeName,
                 location: location,
-                image: result.imageUrl
+                image: result.imageUrl,
+                imagePath: result.imagePath
             };
             return fetch("https://auth-f0824.firebaseio.com/places.json?auth="+authToken,{
                 method: 'POST',
                 body: JSON.stringify(placeData)
             })
         })
-        .then(response=>response.json())
+        .then(response=>{
+            if(response.ok){
+                response.json()
+            }else{
+                throw(new Error())
+            }
+        })
         .then(result=>{
             console.log(result);
             dispatch(uiStopLoading());
+            dispatch(placeAdded());
         })
         .catch(err=>{
             dispatch(uiStopLoading());
@@ -49,14 +63,28 @@ export const addPlace = (placeName,location, image) => {
     };
 };
 
+export const placeAdded=()=>{
+    return {
+        type: PLACE_ADDED
+    };
+};
+
 export const getPlaces=()=>{
     return (dispatch) => {
         dispatch(authGetToken())
             .then(token=>{
+                // console.log("getPlaces()=>Token: ",token);
                 return fetch("https://auth-f0824.firebaseio.com/places.json?auth="+token);
             })
             .catch(err=>console.log(err))
-            .then(res=>res.json())
+            .then(res=>{
+                // console.log(res);
+                if(res.ok){
+                    return res.json()
+                }else{
+                    throw(new Error())
+                }
+            })
             .then(result=>{
                 if(result.error){
                     alert(result.error);
