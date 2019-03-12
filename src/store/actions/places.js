@@ -7,7 +7,7 @@ export const addPlace = (placeName,location, image) => {
         let authToken;
         dispatch(authGetToken())
         .catch(err=>{
-            console.error("No valid token found!");
+            console.log("No valid token found!");
         })
         .then(token=>{
             authToken=token;
@@ -55,7 +55,7 @@ export const getPlaces=()=>{
             .then(token=>{
                 return fetch("https://auth-f0824.firebaseio.com/places.json?auth="+token);
             })
-            .catch(err=>console.error(err))
+            .catch(err=>console.log(err))
             .then(res=>res.json())
             .then(result=>{
                 if(result.error){
@@ -91,7 +91,7 @@ export const deletePlace = (key) => {
     return (dispatch) => {
         dispatch(authGetToken())
         .catch(err=>{
-            console.error("No valid token found!");
+            console.log("No valid token found!");
         })
         .then(token=>{
             dispatch(removePlace(key));
